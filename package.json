@@ -1,0 +1,19 @@
+{
+  "name": "pharmstaclone",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helious23/pharmstaclone-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helious23/pharmstaclone-backend/issues"
+  },
+  "homepage": "https://github.com/helious23/pharmstaclone-backend#readme"
+}
