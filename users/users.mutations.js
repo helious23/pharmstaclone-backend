@@ -37,5 +37,24 @@ export default {
         return error;
       }
     },
+    login: async (_, { username, password }) => {
+      const user = await client.user.findFirst({
+        where: {
+          username,
+        },
+      });
+      if (!user) {
+        return { ok: false, error: "사용자를 찾을 수 없습니다" };
+      }
+      const passwordOk = await bcrypt.compare(password, user.password);
+      if (!passwordOk) {
+        return {
+          ok: false,
+          error: "비밀번호가 맞지 않습니다",
+        };
+      }
+
+      // issue a token and send it to the user
+    },
   },
 };
