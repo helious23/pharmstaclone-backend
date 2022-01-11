@@ -9,23 +9,30 @@ const resolvers: Resolvers = {
       { firstName, lastName, username, email, password }
     ) => {
       try {
-        const existingUser = await client.user.findFirst({
+        const existingUsername = await client.user.findUnique({
           where: {
-            OR: [
-              {
-                username,
-              },
-              {
-                email,
-              },
-            ],
+            username,
           },
         });
-        if (existingUser) {
-          throw new Error("이미 존재하는 이메일 또는 사용자명 입니다");
+        if (existingUsername) {
+          return {
+            ok: false,
+            error: "이미 존재하는 사용자명 입니다",
+          };
+        }
+        const existingEmail = await client.user.findUnique({
+          where: {
+            email,
+          },
+        });
+        if (existingEmail) {
+          return {
+            ok: false,
+            error: "이미 가입된 이메일 입니다",
+          };
         }
         const hashedPaswrod = await bcrypt.hash(password, 10);
-        return client.user.create({
+        await client.user.create({
           data: {
             username,
             email,
@@ -34,8 +41,14 @@ const resolvers: Resolvers = {
             password: hashedPaswrod,
           },
         });
+        return {
+          ok: true,
+        };
       } catch (error) {
-        return error;
+        return {
+          ok: false,
+          error: "회원가입을 할 수 없습니다",
+        };
       }
     },
   },
