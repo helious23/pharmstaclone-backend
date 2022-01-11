@@ -1,5 +1,6 @@
+import * as fs from "fs";
 import client from "../../client";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import { protectedResolver } from "../user.utils";
 import { Resolvers } from "../../types";
 
@@ -19,7 +20,12 @@ const resolvers: Resolvers = {
         },
         { loggedInUser }
       ) => {
-        console.log(avatar);
+        const { filename, createReadStream } = await avatar;
+        const readStream = createReadStream();
+        const writeStream = fs.createWriteStream(
+          process.cwd() + "/uploads/" + filename
+        );
+        readStream.pipe(writeStream);
         let hashedPassword = null;
         if (newPassword) {
           const passwordSame = await bcrypt.compare(
@@ -44,6 +50,7 @@ const resolvers: Resolvers = {
             username,
             email,
             bio,
+            // avatar:"",
             ...(hashedPassword && { password: hashedPassword }),
           },
         });
