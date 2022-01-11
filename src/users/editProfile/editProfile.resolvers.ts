@@ -8,9 +8,18 @@ const resolvers: Resolvers = {
     editProfile: protectedResolver(
       async (
         _,
-        { firstName, lastName, username, email, password: newPassword },
+        {
+          firstName,
+          lastName,
+          username,
+          email,
+          password: newPassword,
+          bio,
+          avatar,
+        },
         { loggedInUser }
       ) => {
+        console.log(avatar);
         let hashedPassword = null;
         if (newPassword) {
           const passwordSame = await bcrypt.compare(
@@ -34,6 +43,7 @@ const resolvers: Resolvers = {
             lastName,
             username,
             email,
+            bio,
             ...(hashedPassword && { password: hashedPassword }),
           },
         });
