@@ -9,7 +9,7 @@
 - [x] Login
 - [x] Edit Profile
 - [x] Change Avatar (Image Upload)
-- [ ] Follow User
+- [x] Follow User
 - [ ] Unfollow User
 - [ ] See Followers
 - [ ] See Following
