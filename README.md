@@ -10,9 +10,10 @@
 - [x] Edit Profile
 - [x] Change Avatar (Image Upload)
 - [x] Follow User
-- [ ] Unfollow User
-- [ ] See Followers
-- [ ] See Following
+- [x] Unfollow User
+- [ ] See Followers & See Following w/ Pagination
+- [ ] Computed Fields
+- [ ] Search Users
 
 ### Photos:
 
