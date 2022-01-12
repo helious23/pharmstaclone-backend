@@ -1,7 +1,7 @@
 import { createWriteStream } from "fs";
 import client from "../../client";
 import * as bcrypt from "bcrypt";
-import { protectedResolver } from "../user.utils";
+import { protectedResolver } from "../users.utils";
 import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
