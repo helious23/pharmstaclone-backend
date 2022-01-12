@@ -8,9 +8,7 @@ const resolvers: Resolvers = {
     login: async (_, { username, password }) => {
       try {
         const user = await client.user.findFirst({
-          where: {
-            username,
-          },
+          where: { username },
         });
         if (!user) {
           return { ok: false, error: "사용자를 찾을 수 없습니다" };

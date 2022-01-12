@@ -8,6 +8,7 @@ const resolvers: Resolvers = {
         try {
           const toFollowUser = await client.user.findUnique({
             where: { username },
+            select: { id: true },
           });
           if (!toFollowUser) {
             return {
