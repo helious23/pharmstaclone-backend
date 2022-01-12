@@ -1,5 +1,6 @@
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -7,13 +8,7 @@ const resolvers: Resolvers = {
       async (_, { file, caption }, { loggedInUser, client }) => {
         let hashtagObjs = [];
         if (caption) {
-          const hashtags = caption.match(/#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g);
-          hashtagObjs = hashtags.map((hashtag: string) => {
-            return {
-              where: { hashtag },
-              create: { hashtag },
-            };
-          });
+          hashtagObjs = processHashtags(caption);
         }
         return client.photo.create({
           data: {
