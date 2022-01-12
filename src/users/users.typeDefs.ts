@@ -1,6 +1,13 @@
 import { gql } from "apollo-server";
 
 export default gql`
+  type MyPhotosResults {
+    ok: Boolean!
+    error: String
+    results: [Photo]
+    totalPages: Int!
+  }
+
   type User {
     id: Int!
     firstName: String!
@@ -16,6 +23,7 @@ export default gql`
     totalFollowing: Int!
     totalFollowers: Int!
     isFollowing: Boolean!
-    isMe(username: String): Boolean!
+    isMe: Boolean!
+    myPhotos(page: Int!): MyPhotosResults!
   }
 `;
