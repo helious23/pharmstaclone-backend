@@ -13,8 +13,8 @@
 - [x] Unfollow User
 - [x] See Followers w/ Offset based Pagination
 - [x] See Following w/ Cursor based Pagination
-- [ ] Computed Fields
-- [ ] Search Users
+- [x] Computed Fields
+- [x] Search Users
 
 ### Photos:
 
