@@ -9,6 +9,15 @@ const resolvers: Resolvers = {
     isMe: ({ id }, _, { loggedInUser }) => {
       return id === loggedInUser?.id;
     },
+    isFollowing: async ({ id }, _, { loggedInUser, client }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      const exist = await client.user.count({
+        where: { username: loggedInUser.username, following: { some: { id } } },
+      });
+      return Boolean(exist);
+    },
   },
 };
 
