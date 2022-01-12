@@ -24,4 +24,11 @@ export default gql`
     createdAt: String!
     updatedAt: String!
   }
+
+  type Like {
+    id: Int!
+    photo: Photo!
+    createdAt: String!
+    updatedAt: String!
+  }
 `;
