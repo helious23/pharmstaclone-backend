@@ -7,8 +7,20 @@ const resolvers: Resolvers = {
     hashtags: ({ id }, _, { client }) =>
       //   client.photo.findUnique({ where: { id } }).hashtags(),
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
-    likes: ({ id }, _, { client }) =>
+    likes: ({ id }, _, { loggedInUser, client }) =>
       client.like.count({ where: { photoId: id } }),
+    isMine: async ({ id }, _, { loggedInUser, client }) => {
+      const ok = await client.user.count({
+        where: {
+          photos: {
+            some: {
+              userId: loggedInUser.id,
+            },
+          },
+        },
+      });
+      return id === ok;
+    },
   },
   Hashtag: {
     totalPhotos: ({ id }, _, { client }) =>
