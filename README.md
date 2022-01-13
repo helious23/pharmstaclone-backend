@@ -33,7 +33,11 @@
 
 - [x] Comment on Photo
 - [x] Delete Comment 
-- [ ] Edit Comment
+- [x] Edit Comment
+
+### Refector
+
+- [ ] Mutation Response
   
 ### Extras
 
