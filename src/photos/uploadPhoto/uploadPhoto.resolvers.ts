@@ -10,7 +10,7 @@ const resolvers: Resolvers = {
         if (caption) {
           hashtagObjs = processHashtags(caption);
         }
-        return client.photo.create({
+        await client.photo.create({
           data: {
             file,
             caption,
@@ -24,6 +24,9 @@ const resolvers: Resolvers = {
             },
           },
         });
+        return {
+          ok: true,
+        };
       }
     ),
   },
