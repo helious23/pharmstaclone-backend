@@ -25,15 +25,15 @@
 - [x] Edit Photo
 - [x] Like / Unlike Photo
 - [x] See Photo Likes
-- [ ] See Photo Comments
 - [x] See Feed
+- [x] See Photo Comments
 - [ ] isMine (Delete Photo)
 
 ### Comments:
 
 - [x] Comment on Photo
-- [ ] Edit Comment
 - [ ] Delete Comment (isMine)
+- [ ] Edit Comment
   
 ### Extras
 
