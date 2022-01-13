@@ -11,17 +11,11 @@ const resolvers: Resolvers = {
       client.like.count({ where: { photoId: id } }),
     comments: ({ id }, _, { client }) =>
       client.comment.count({ where: { photoId: id } }),
-    isMine: async ({ id }, _, { loggedInUser, client }) => {
-      const ok = await client.user.count({
-        where: {
-          photos: {
-            some: {
-              userId: loggedInUser.id,
-            },
-          },
-        },
-      });
-      return id === ok;
+    isMine: ({ userId }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      return userId === loggedInUser.id;
     },
   },
   Hashtag: {

@@ -27,12 +27,12 @@
 - [x] See Photo Likes
 - [x] See Feed
 - [x] See Photo Comments
-- [ ] isMine (Delete Photo)
+- [ ] Delete Photo
 
 ### Comments:
 
 - [x] Comment on Photo
-- [ ] Delete Comment (isMine)
+- [ ] Delete Comment 
 - [ ] Edit Comment
   
 ### Extras

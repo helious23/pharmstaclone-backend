@@ -7,7 +7,10 @@ const resolvers: Resolvers = {
     totalFollowers: ({ id }, _, { client }) =>
       client.user.count({ where: { following: { some: { id } } } }),
     isMe: ({ id }, _, { loggedInUser }) => {
-      return id === loggedInUser?.id;
+      if (!loggedInUser) {
+        return false;
+      }
+      return id === loggedInUser.id;
     },
     isFollowing: async ({ id }, _, { loggedInUser, client }) => {
       if (!loggedInUser) {
