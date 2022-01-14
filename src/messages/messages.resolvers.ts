@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
       if (!loggedInUser) {
         return 0;
       } else {
-        client.message.count({
+        return client.message.count({
           where: {
             roomId: id,
             read: false,
@@ -24,6 +24,10 @@ const resolvers: Resolvers = {
         });
       }
     },
+  },
+  Message: {
+    user: ({ id }, _, { client }) =>
+      client.user.findFirst({ where: { messages: { some: { id } } } }),
   },
 };
 export default resolvers;
