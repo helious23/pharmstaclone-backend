@@ -1,5 +1,7 @@
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
+import pubsub from "../../pubsub";
+import { NEW_MESSAGE } from "../../constants";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -43,7 +45,7 @@ const resolvers: Resolvers = {
             };
           }
         }
-        await client.message.create({
+        const message = await client.message.create({
           data: {
             payload,
             room: {
@@ -58,6 +60,7 @@ const resolvers: Resolvers = {
             },
           },
         });
+        pubsub.publish(NEW_MESSAGE, { roomUpdates: { ...message } });
         return {
           ok: true,
         };

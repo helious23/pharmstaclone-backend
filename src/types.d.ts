@@ -17,3 +17,11 @@ export type Resolvers = {
     [key: string]: Resolver;
   };
 };
+
+export type SubResolvers = {
+  [key: string]: {
+    [key: string]: {
+      subscribe: Resolver;
+    };
+  };
+};
