@@ -7,9 +7,8 @@ const resolvers: Resolvers = {
       async (_, { username }, { loggedInUser, client }) => {
         try {
           const tounfollowUser = await client.user.findUnique({
-            where: {
-              username,
-            },
+            where: { username },
+            select: { id: true },
           });
           if (!tounfollowUser) {
             return {
