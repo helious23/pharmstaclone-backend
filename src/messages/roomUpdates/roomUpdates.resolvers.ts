@@ -7,8 +7,11 @@ const resolvers: SubResolvers = {
   Subscription: {
     roomUpdates: {
       subscribe: async (root, args, context, info) => {
-        const room = await context.client.room.findUnique({
-          where: { id: args.id },
+        const room = await context.client.room.findFirst({
+          where: {
+            id: args.id,
+            users: { some: { id: context.loggedInUser.id } },
+          },
           select: { id: true },
         });
         if (!room) {
@@ -16,7 +19,21 @@ const resolvers: SubResolvers = {
         }
         return withFilter(
           () => pubsub.asyncIterator(NEW_MESSAGE),
-          ({ roomUpdates: { roomId } }, { id }) => roomId === id
+          async ({ roomUpdates: { roomId } }, { id }, { loggedInUser }) => {
+            if (roomId === id) {
+              const room = await context.client.room.findFirst({
+                where: {
+                  id,
+                  users: { some: { id: loggedInUser.id } },
+                },
+                select: { id: true },
+              });
+              if (!room) {
+                return false;
+              }
+              return true;
+            }
+          }
         )(root, args, context, info);
       },
     },

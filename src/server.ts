@@ -10,17 +10,34 @@ import { getUser } from "./users/users.utils";
 const apollo = new ApolloServer({
   resolvers,
   typeDefs,
-  context: async (info) => {
-    if (info.req) {
+  context: async (ctx) => {
+    if (ctx.req) {
       return {
-        loggedInUser: await getUser(info.req.headers.token),
+        loggedInUser: await getUser(ctx.req.headers.token),
         client,
       };
-    } else if (info.connection) {
+    } else if (ctx.connection) {
+      const {
+        connection: {
+          context: { loggedInUser },
+        },
+      } = ctx;
       return {
         client,
+        loggedInUser,
       };
     }
+  },
+  subscriptions: {
+    onConnect: async ({ token }: { token: string }) => {
+      if (!token) {
+        throw new Error("로그인이 필요한 서비스 입니다");
+      }
+      const loggedInUser = await getUser(token);
+      return {
+        loggedInUser,
+      };
+    },
   },
 });
 

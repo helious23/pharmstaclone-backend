@@ -50,4 +50,4 @@
 - [x] See Room
 - [x] Computed Fields
 - [x] See Message
-- [ ] Realtime Mesages
+- [x] Realtime Mesages
