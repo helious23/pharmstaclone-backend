@@ -17,6 +17,17 @@ const resolvers: Resolvers = {
       }
       return userId === loggedInUser.id;
     },
+    isLike: async ({ id }, _, { loggedInUser, client }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      const count = await client.like.count({
+        where: {
+          AND: [{ photoId: id }, { userId: loggedInUser.id }],
+        },
+      });
+      return Boolean(count);
+    },
   },
   Hashtag: {
     totalPhotos: ({ id }, _, { client }) =>

@@ -23,8 +23,8 @@ const apollo = new ApolloServer({
         },
       } = ctx;
       return {
-        client,
         loggedInUser,
+        client,
       };
     }
   },
