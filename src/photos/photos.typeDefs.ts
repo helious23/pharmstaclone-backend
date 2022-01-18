@@ -8,11 +8,13 @@ export default gql`
     caption: String
     hashtags: [Hashtag]
     likes: Int!
-    comments: Int!
+    commentNumber: Int!
+    comments: [Comment]
     isMine: Boolean!
-    isLike: Boolean!
+    isLiked: Boolean!
     createdAt: String!
     updatedAt: String!
+    likedBy: User
   }
 
   type PhotosResults {

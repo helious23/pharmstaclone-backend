@@ -9,25 +9,59 @@ const resolvers: Resolvers = {
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
     likes: ({ id }, _, { client }) =>
       client.like.count({ where: { photoId: id } }),
-    comments: ({ id }, _, { client }) =>
+    commentNumber: ({ id }, _, { client }) =>
       client.comment.count({ where: { photoId: id } }),
+    comments: async ({ id }, _, { client }) =>
+      client.comment.findMany({
+        where: { photoId: id },
+        take: 3,
+        orderBy: { createdAt: "desc" },
+      }),
     isMine: ({ userId }, _, { loggedInUser }) => {
       if (!loggedInUser) {
         return false;
       }
       return userId === loggedInUser.id;
     },
-    isLike: async ({ id }, _, { loggedInUser, client }) => {
+    isLiked: async ({ id }, _, { loggedInUser, client }) => {
       if (!loggedInUser) {
         return false;
       }
-      const count = await client.like.count({
+      const ok = await client.like.findUnique({
         where: {
-          AND: [{ photoId: id }, { userId: loggedInUser.id }],
+          photoId_userId: {
+            photoId: id,
+            userId: loggedInUser.id,
+          },
+        },
+        select: {
+          id: true,
         },
       });
-      return Boolean(count);
+      if (ok) {
+        return true;
+      }
+      return false;
     },
+    likedBy: async ({ id }, _, { loggedInUser, client }) =>
+      client.user.findFirst({
+        where: {
+          likes: {
+            some: {
+              photoId: id,
+            },
+          },
+          followers: {
+            some: {
+              id: loggedInUser.id,
+            },
+          },
+        },
+        select: {
+          username: true,
+          avatar: true,
+        },
+      }),
   },
   Hashtag: {
     totalPhotos: ({ id }, _, { client }) =>

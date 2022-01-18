@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/helious23/pharmstaclone-backend#readme",
   "dependencies": {
-    "@prisma/client": "^3.7.0",
+    "@prisma/client": "^3.8.1",
     "apollo-server": "^2.25.2",
     "apollo-server-express": "^2.25.3",
     "aws-sdk": "^2.1056.0",
