@@ -1,5 +1,6 @@
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../../photos/photos.utils";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -9,13 +10,14 @@ const resolvers: Resolvers = {
           where: { id: photoId },
           select: { id: true },
         });
+        const hashtagObjs = processHashtags(payload);
         if (!photo) {
           return {
             ok: false,
             error: "사진을 찾을 수 없습니다",
           };
         }
-        await client.comment.create({
+        const newComment = await client.comment.create({
           data: {
             payload,
             photo: {
@@ -24,10 +26,14 @@ const resolvers: Resolvers = {
             user: {
               connect: { id: loggedInUser.id },
             },
+            ...(hashtagObjs.length > 0 && {
+              hashtags: { connectOrCreate: hashtagObjs },
+            }),
           },
         });
         return {
           ok: true,
+          id: newComment.id,
         };
       }
     ),

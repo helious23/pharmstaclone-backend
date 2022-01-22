@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
         skip: lastId ? 1 : 0,
         ...(lastId && { cursor: { id: lastId } }),
         orderBy: {
-          createdAt: "desc",
+          updatedAt: "desc",
         },
       }),
   },

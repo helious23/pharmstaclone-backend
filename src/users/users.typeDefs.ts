@@ -5,7 +5,7 @@ export default gql`
     ok: Boolean!
     error: String
     results: [Photo]
-    totalPages: Int!
+    totalPages: Int
   }
 
   type User {
@@ -22,8 +22,9 @@ export default gql`
     followers: [User]
     totalFollowing: Int!
     totalFollowers: Int!
+    totalPosts: Int!
     isFollowing: Boolean!
     isMe: Boolean!
-    myPhotos(page: Int!): MyPhotosResults!
+    photos(page: Int!): MyPhotosResults!
   }
 `;

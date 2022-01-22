@@ -5,6 +5,7 @@ export default gql`
     id: Int!
     user: User!
     photo: Photo!
+    hashtags: [Hashtag]
     payload: String!
     isMine: Boolean!
     createdAt: String!

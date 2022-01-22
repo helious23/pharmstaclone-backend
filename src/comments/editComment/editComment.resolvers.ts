@@ -1,5 +1,6 @@
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../../photos/photos.utils";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -7,7 +8,7 @@ const resolvers: Resolvers = {
       async (_, { id, payload }, { loggedInUser, client }) => {
         const comment = await client.comment.findUnique({
           where: { id },
-          select: { userId: true },
+          select: { userId: true, hashtags: { select: { hashtag: true } } },
         });
         if (!comment) {
           return {
@@ -20,12 +21,19 @@ const resolvers: Resolvers = {
             error: "자신이 작성한 댓글만 수정할 수 있습니다",
           };
         }
-        await client.comment.update({
+        const newComment = await client.comment.update({
           where: { id },
-          data: { payload },
+          data: {
+            payload,
+            hashtags: {
+              disconnect: comment.hashtags,
+              connectOrCreate: processHashtags(payload),
+            },
+          },
         });
         return {
           ok: true,
+          createdAt: newComment.createdAt,
         };
       }
     ),

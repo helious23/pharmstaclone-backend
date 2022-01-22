@@ -2,6 +2,8 @@ import { Resolvers } from "../types";
 
 const resolvers: Resolvers = {
   User: {
+    totalPosts: ({ id }, _, { client }) =>
+      client.photo.count({ where: { userId: id } }),
     totalFollowing: ({ id }, _, { client }) =>
       client.user.count({ where: { followers: { some: { id } } } }),
     totalFollowers: ({ id }, _, { client }) =>
@@ -21,13 +23,7 @@ const resolvers: Resolvers = {
       });
       return Boolean(exist);
     },
-    myPhotos: async ({ id }, { page }, { loggedInUser, client }) => {
-      if (id !== loggedInUser.id) {
-        return {
-          ok: false,
-          error: "본인의 사진만 확인할 수 있습니다",
-        };
-      }
+    photos: async ({ id }, { page }, { client }) => {
       const results = await client.user
         .findUnique({ where: { id } })
         .photos({ take: 5, skip: (page - 1) * 5 });
