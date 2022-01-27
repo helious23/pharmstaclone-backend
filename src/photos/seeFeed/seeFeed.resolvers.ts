@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
           },
           orderBy: { createdAt: "desc" },
           skip: lastId ? 1 : 0,
-          take: 5,
+          take: 3,
           ...(lastId && { cursor: { id: lastId } }),
         })
     ),

@@ -1,12 +1,12 @@
 import * as bcrypt from "bcrypt";
-import client from "../../client";
 import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
   Mutation: {
     createAccount: async (
       _,
-      { firstName, lastName, username, email, password }
+      { firstName, lastName, username, email, password },
+      { client }
     ) => {
       try {
         const existingUsername = await client.user.findUnique({
@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
         if (existingUsername) {
           return {
             ok: false,
-            error: "이미 존재하는 사용자명 입니다",
+            error: "이미 존재하는 사용자 이름 입니다",
           };
         }
         const existingEmail = await client.user.findUnique({

@@ -28,6 +28,7 @@ const resolvers: Resolvers = {
           token,
         };
       } catch (error) {
+        console.log(error);
         return {
           ok: false,
           error: "로그인 할 수 없습니다",
